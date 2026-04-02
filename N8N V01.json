@@ -1,0 +1,49 @@
+{
+  "name": "registrar_desfecho_vozis",
+  "description": "Ferramenta obrigatória acionada silenciosamente ao final da chamada para registrar o desfecho (D1, D2, D3), dados de qualificação e agendamentos nas planilhas e CRM da central de controle.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "nome_lead": {
+        "type": "string",
+        "description": "Nome do lead com quem a IA conversou."
+      },
+      "status_desfecho": {
+        "type": "string",
+        "enum": ["D1", "D2", "D3"],
+        "description": "D1 (Reunião Agendada), D2 (Follow-up Aprovado) ou D3 (Descarte Qualificado)."
+      },
+      "data_hora_agendamento": {
+        "type": "string",
+        "description": "Formato YYYY-MM-DDTHH:MM:SS. Preencher apenas se D1 ou D2. Se for D3, retornar null.",
+        "nullable": true
+      },
+      "qualificacao_tamanho_equipe": {
+        "type": "string",
+        "description": "Resposta do lead sobre o tamanho da equipe de vendas."
+      },
+      "qualificacao_dor_principal": {
+        "type": "string",
+        "description": "A dor principal mencionada (ex: volume de leads, qualidade)."
+      },
+      "qualificacao_concorrente_atual": {
+        "type": "string",
+        "description": "Ferramenta atual que o lead utiliza (se mencionado)."
+      },
+      "motivo_descarte": {
+        "type": "string",
+        "description": "Se D3, motivo do descarte (ex: Sem interesse, Fora de perfil, Ocupado). Senão, null.",
+        "nullable": true
+      },
+      "resumo_observacoes": {
+        "type": "string",
+        "description": "Breve resumo do tom do lead e principais objeções."
+      }
+    },
+    "required": [
+      "nome_lead",
+      "status_desfecho",
+      "resumo_observacoes"
+    ]
+  }
+}
