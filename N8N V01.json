@@ -14,9 +14,8 @@
         "description": "D1 (Reunião Agendada), D2 (Follow-up Aprovado) ou D3 (Descarte Qualificado)."
       },
       "data_hora_agendamento": {
-        "type": "string",
-        "description": "Formato YYYY-MM-DDTHH:MM:SS. Preencher apenas se D1 ou D2. Se for D3, retornar null.",
-        "nullable": true
+        "type": ["string", "null"],
+        "description": "Formato YYYY-MM-DDTHH:MM:SS. Preencher apenas se D1 ou D2. Se for D3, retornar null."
       },
       "qualificacao_tamanho_equipe": {
         "type": "string",
@@ -31,9 +30,8 @@
         "description": "Ferramenta atual que o lead utiliza (se mencionado)."
       },
       "motivo_descarte": {
-        "type": "string",
-        "description": "Se D3, motivo do descarte (ex: Sem interesse, Fora de perfil, Ocupado). Senão, null.",
-        "nullable": true
+        "type": ["string", "null"],
+        "description": "Se D3, motivo do descarte (ex: Sem interesse, Fora de perfil, Ocupado). Senão, null."
       },
       "resumo_observacoes": {
         "type": "string",
@@ -44,6 +42,24 @@
       "nome_lead",
       "status_desfecho",
       "resumo_observacoes"
-    ]
+    ],
+    "if": {
+      "properties": { "status_desfecho": { "const": "D3" } },
+      "required": ["status_desfecho"]
+    },
+    "then": {
+      "required": ["motivo_descarte"],
+      "properties": {
+        "motivo_descarte": { "type": "string" },
+        "data_hora_agendamento": { "type": "null" }
+      }
+    },
+    "else": {
+      "required": ["data_hora_agendamento"],
+      "properties": {
+        "data_hora_agendamento": { "type": "string" },
+        "motivo_descarte": { "type": "null" }
+      }
+    }
   }
 }
